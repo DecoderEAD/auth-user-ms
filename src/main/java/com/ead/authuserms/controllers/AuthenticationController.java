@@ -3,6 +3,7 @@ package com.ead.authuserms.controllers;
 import com.ead.authuserms.dtos.UserDTO;
 import com.ead.authuserms.models.UserModel;
 import com.ead.authuserms.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,12 @@ public class AuthenticationController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody UserDTO userDTO) {
-        if(userService.existsByUserName(userDTO.getUserName())) {
+    public ResponseEntity<Object> registerUser(@RequestBody
+                                               @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO) {
+        if (userService.existsByUserName(userDTO.getUserName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is already taken!");
         }
-        if(userService.existsByEmail(userDTO.getEmail())) {
+        if (userService.existsByEmail(userDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is already taken!");
         }
         var userModel = new UserModel();
