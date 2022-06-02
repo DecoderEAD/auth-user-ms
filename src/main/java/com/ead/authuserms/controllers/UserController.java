@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -31,7 +33,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "userId") UUID userId) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()) {
+        if (userModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
@@ -41,7 +43,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()) {
+        if (userModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         } else {
             userService.delete(userModelOptional.get());
@@ -51,9 +53,10 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId,
-                                             @RequestBody @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO) {
+                                             @RequestBody @Validated(UserDTO.UserView.UserPut.class)
+                                             @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()) {
+        if (userModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         } else {
             var userModel = userModelOptional.get();
@@ -68,12 +71,13 @@ public class UserController {
 
     @PutMapping("/{userId}/password")
     public ResponseEntity<Object> updatePassword(@PathVariable(value = "userId") UUID userId,
-                                                 @RequestBody @JsonView(UserDTO.UserView.PasswordPut.class) UserDTO userDTO) {
+                                                 @RequestBody @Validated(UserDTO.UserView.PasswordPut.class)
+                                                 @JsonView(UserDTO.UserView.PasswordPut.class) UserDTO userDTO) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()) {
+        if (userModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        if(!userDTO.getOldPassword().equals(userModelOptional.get().getPassword())) {
+        if (!userDTO.getOldPassword().equals(userModelOptional.get().getPassword())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Mismatched old password!");
         } else {
             var userModel = userModelOptional.get();
@@ -86,9 +90,10 @@ public class UserController {
 
     @PutMapping("/{userId}/image")
     public ResponseEntity<Object> updateImage(@PathVariable(value = "userId") UUID userId,
-                                                 @RequestBody @JsonView(UserDTO.UserView.ImagePut.class) UserDTO userDTO) {
+                                              @RequestBody @Validated(UserDTO.UserView.ImagePut.class)
+                                              @JsonView(UserDTO.UserView.ImagePut.class) UserDTO userDTO) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()) {
+        if (userModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         } else {
             var userModel = userModelOptional.get();
