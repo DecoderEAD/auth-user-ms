@@ -5,6 +5,9 @@ import com.ead.authuserms.models.UserModel;
 import com.ead.authuserms.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +23,10 @@ import static com.ead.authuserms.enums.UserTypeEnum.STUDENT;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationController {
+
+    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final UserService userService;
 
@@ -43,5 +48,15 @@ public class AuthenticationController {
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
+    }
+
+    @GetMapping("/")
+    public String index() {
+        logger.trace("TRACE");
+        logger.debug("DEBUG");
+        logger.info("INFO");
+        logger.warn("WARN");
+        logger.error("ERROR");
+        return "Loggin Spring Boot...";
     }
 }
