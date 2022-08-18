@@ -90,7 +90,7 @@ public class UserController {
             userModel.setCpf(userDTO.getCpf());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
-            log.debug("PUT updateUser userModel updated {} ", userModel.toString());
+            log.debug("PUT updateUser userModel updated userId {} ", userModel.getUserId());
             log.info("User updated succesfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
@@ -115,7 +115,7 @@ public class UserController {
             userModel.setPassword(userDTO.getPassword());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
-            log.debug("PUT updatePassword userModel password updated {} ", userModel.toString());
+            log.debug("PUT updatePassword userModel password updated userId {} ", userModel.getUserId());
             log.info("Password updated succesfull userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body("Password updated succesfull");
         }
@@ -136,7 +136,7 @@ public class UserController {
             userModel.setImageUrl(userDTO.getImageUrl());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
-            log.debug("PUT updateImage userModel image updated {} ", userModel.toString());
+            log.debug("PUT updateImage userId {} image updated ", userModel.getUserId());
             log.info("Image updated succesfull userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
