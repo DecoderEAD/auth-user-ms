@@ -3,18 +3,18 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ead-authuser
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://localhost:5433/ead_authuser
+    username: decoder
+    password: decoder
   jpa:
     hibernate:
       ddl-auto: update
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-      jdbc:
-        lob.non-contextual-creation: true
+#      jdbc:
+#        lob.non-contextual-creation: true
     properties:
       hibernate:
         show_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   output:
     ansi:
       enabled: always
