@@ -34,12 +34,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Page<UserModel>> getAllUsers(
-            SpecificationTemplate.UserSpec spec,
-            @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
-            @RequestParam(required = false) UUID courseId) {
+    public ResponseEntity<Page<UserModel>> getAllUsers(SpecificationTemplate.UserSpec spec, @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
+                                                        @RequestParam(required = false) UUID courseId) {
         Page<UserModel> userModelPage = null;
-        if(courseId != null) {
+        if (courseId != null) {
             userModelPage = userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec), pageable);
         } else {
             userModelPage = userService.findAll(spec, pageable);
