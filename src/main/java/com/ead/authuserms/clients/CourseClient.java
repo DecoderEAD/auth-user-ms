@@ -20,18 +20,16 @@ import java.util.UUID;
 @Log4j2
 @Component
 @RequiredArgsConstructor
-public class UserClient {
+public class CourseClient {
 
     private final RestTemplate restTemplate;
 
     private final UtilsService utilsService;
 
-    String REQUEST_URL_COURSE = "http://localhost:8082";
-
     public Page<CourseDTO> getAllCoursesByUser(Pageable pageable, UUID userId){
         List<CourseDTO> searchResult = null;
         ResponseEntity<ResponsePageDTO<CourseDTO>> result = null;
-        String url = REQUEST_URL_COURSE + utilsService.createUrlGetAllCoursesByUser(userId, pageable);
+        String url = utilsService.createUrlGetAllCoursesByUser(userId, pageable);
         log.debug("Request URL: {} ", url);
         log.info("Request URL: {} ", url);
         try{
