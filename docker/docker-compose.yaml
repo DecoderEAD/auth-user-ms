@@ -9,7 +9,7 @@ services:
     volumes:
       - ./docker-postgres-init.sql:/docker-entrypoint-initdb.d/docker-postgres-init.sql
     environment:
-      POSTGRES_MULTIPLE_DATABASES: ead_authuser, ead_course
+      POSTGRES_MULTIPLE_DATABASES: ead_authuser_v2, ead_course_v2
       POSTGRES_USER: decoder
       POSTGRES_PASSWORD: decoder
     ports:
