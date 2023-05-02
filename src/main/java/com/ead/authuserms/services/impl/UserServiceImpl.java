@@ -1,5 +1,6 @@
 package com.ead.authuserms.services.impl;
 
+import com.ead.authuserms.clients.CourseClient;
 import com.ead.authuserms.models.UserModel;
 import com.ead.authuserms.repositories.UserCourseRepository;
 import com.ead.authuserms.repositories.UserRepository;
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserCourseRepository userCourseRepository;
 
+    private final CourseClient courseClient;
+
     @Override
     public List<UserModel> findAll() {
         return userRepository.findAll();
@@ -36,11 +39,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void delete(UserModel userModel) {
+        boolean deleteUserCourseInCourse = false;
         var userCourseModelList = userCourseRepository.findAllUserCourseIntoUser(userModel.getUserId());
         if(!userCourseModelList.isEmpty()) {
             userCourseRepository.deleteAll(userCourseModelList);
+            deleteUserCourseInCourse=true;
         }
         userRepository.delete(userModel);
+        if(deleteUserCourseInCourse) {
+            courseClient.deleteUserInCourse(userModel.getUserId());
+        }
     }
 
     @Override
