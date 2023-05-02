@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ead</groupId>
 	<artifactId>auth-user-ms</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>auth-user-ms</name>
 	<description>User Authorization</description>
 	<properties>
